@@ -1,6 +1,6 @@
 INSTANCE_CONFIG = {
-    "ID_MANAGEMENT": {},
-    "ALIAS": "",
+    "IDENTITY_TYPE": None,
+    "InstanceAlias": "",
     "TELEPHONY": {
         "INCOMING": False,
         "OUTGOING": False
@@ -24,9 +24,10 @@ INSTANCE_CONFIG = {
     }
 }
 
-IDENTITY_CONFIGS = [
+IDENTITY_CONFIGS = (
     {
-        "CHOICE": "CONNECT",
+        "ORDINAL": "1",
+        "CHOICE": "CONNECT_MANAGED",
         "DISPLAY": "Store users in Amazon Connect",
         "ADMIN": False,
         "ADMIN_FIELDS": {
@@ -53,11 +54,13 @@ IDENTITY_CONFIGS = [
         }
     },
     {
-        "CHOICE": "DIRECTORY",
+        "ORDINAL": "2",
+        "CHOICE": "EXISTING_DIRECTORY",
         "DISPLAY": "Link to an existing directory",
         "ADMIN": False
     },
     {
+        "ORDINAL": "3",
         "CHOICE": "SAML",
         "DISPLAY": "SAML 2.0-based authentication",
         "ADMIN": False,
@@ -76,4 +79,4 @@ IDENTITY_CONFIGS = [
             },            
         }
     }
-]
+)
