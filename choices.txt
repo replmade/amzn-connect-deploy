@@ -1,0 +1,53 @@
+Create Amazon Connect Instance
+
+Step 1: Set identity
+- Store users in Amazon Connect
+- Link to an existing directory
+    - Choose directory
+- SAML 2.0-based authentication
+
+Access URL
+- instance-alias for .my.connect.aws
+
+Step 2: Add administrator
++ Users in Amazon Connect 
+    - Admin Fields
+        * First name
+        * Last name
+        * Username
+        * Password
+        * Password (verify)
+        * Email
+    - No administrator
++ AWS Directory Services
++ SAML
+    - Admin Fields
+        * First name
+        * Last name
+        * Username
+    - No administrator
+
+Step 3: Set Telephony
++ Telephony options
+    - Allow incoming calls (T/F)
+    - Allow outgoing calls (T/F)
+
+Step 4: Data storage
+- Enable Customer Profiles
++ Customize data storage (advanced)
+    - Call recordings (T/F), Chat transcripts (T/F), 
+        Exported reports (T/F), Attachments (T/F)
+        - Create a new S3 bucket
+            - Name
+            - Path prefix (Default: CallRecordings)
+        - Select an existing S3 bucket
+            - Name (verify)
+            - Path prefix (Default: CallRecordings)
+        - Enable encryption
+            - Select AWS KMS key by name
+                AWS KMS key selection
+            - Enter key ARN/ID
+                - ARN / ID
+    - Enable Contact flow logs
+
+Review and Create
