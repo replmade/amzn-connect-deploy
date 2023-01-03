@@ -11,4 +11,6 @@ class Util:
         with open(file_path, 'w') as f:
             json.dump(dict_data, f)
 
-    
+    @staticmethod
+    def is_dict_empty(d):
+        return bool(d)
