@@ -1,5 +1,19 @@
-from enums import IdType
 from shared.util import Util
+
+IdType = (
+    {
+        "Ordinal": "1",
+        "IdentityManagementType": "CONNECT_MANAGED"
+    },
+    {
+        "Ordinal": "2",
+        "IdentityManagementType": "EXISTING_DIRECTORY"
+    },
+    {
+        "Ordinal": "3",
+        "IdentityManagementType": "SAML"
+    }
+)
 
 class InstanceConfig:
 
@@ -8,7 +22,20 @@ class InstanceConfig:
             for k, v in config_dict.items():
                 setattr(self, k, v)
 
-    
+    def set_user_type(self, choice):
+        self.IdentityManagementType = choice["IdentityManagementType"]
+
+    def set_instance_alias(self, alias_name):
+        self.InstanceAlias = alias_name
+
+    def set_directory_id(self, directory_id):
+        self.DirectoryId = directory_id
+
+    def set_inbound_calls_enabled(self, enable):
+        self.InboundCallsEnabled = enable
+
+    def set_outbound_call_enabled(self, enable):
+        self.OutboundCallsEnabled = enable
 
 # INSTANCE_CONFIG = {
 #     "IDENTITY_TYPE": None,
@@ -38,7 +65,7 @@ class InstanceConfig:
 
 # IDENTITY_CONFIGS = (
 #     {
-#         "ORDINAL": "1",
+#         "Ordinal": "1",
 #         "CHOICE": "CONNECT_MANAGED",
 #         "DISPLAY": "Store users in Amazon Connect",
 #         "ADMIN": False,
@@ -66,13 +93,13 @@ class InstanceConfig:
 #         }
 #     },
 #     {
-#         "ORDINAL": "2",
+#         "Ordinal": "2",
 #         "CHOICE": "EXISTING_DIRECTORY",
 #         "DISPLAY": "Link to an existing directory",
 #         "ADMIN": False
 #     },
 #     {
-#         "ORDINAL": "3",
+#         "Ordinal": "3",
 #         "CHOICE": "SAML",
 #         "DISPLAY": "SAML 2.0-based authentication",
 #         "ADMIN": False,
