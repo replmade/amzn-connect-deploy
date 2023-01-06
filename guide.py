@@ -32,20 +32,64 @@ class Guide:
             return alias_name.lower()
         return None
 
-    def run_create(self):
+    def choose_directory_id(self):
+        directory_id = input('\nEnter the AWS Directory Service directory id to manage your users: ')
+        confirm = Util.confirm_choice(f"You entered {directory_id}. Is this correct?")
+        if confirm:
+            return directory_id
+        return None
+
+    def choose_outbound_calls(self):
+        user_input = input('\nEnable outbound calls? [N/y]: ')
+        allow_outbound_calls = True if user_input[0].lower() == 'y' else False
+        confirm = Util.confirm_choice(f"You entered {'yes' if allow_outbound_calls else 'no'}. Is this correct?")
+        if confirm:
+            return allow_outbound_calls
+        return None
+
+    def choose_inbound_calls(self):
+        user_input = input('\Enable inbound calls? [N/y]: ')
+        allow_inbound_calls = True if user_input[0].lower() == 'y' else False
+        confirm = Util.confirm_choice(f"You entered {'yes' if allow_inbound_calls else 'no'}. Is this correct?")
+        if confirm:
+            return allow_inbound_calls
+        return None
+
+    def get_create_options(self):
         user_type = None
         instance_alias = None
+        directory_id = None
+        outbound_calls = None
+        inbound_calls = None
 
-        iconfig = InstanceConfig()
+        instance_config = InstanceConfig()
         # Get the IdentityManagementType for the instance from user input
         while not user_type:
             user_type = self.choose_user_type()
-        iconfig.set_user_type(user_type)
+        instance_config.set_user_type(user_type)
 
         # Get the instance alias for the instance URL from user input
         while not instance_alias:
             instance_alias = self.choose_instance_alias()
-        iconfig.set_instance_alias(instance_alias)
+        instance_config.set_instance_alias(instance_alias)
+
+        # Get the directory id if Dir Service was chosen for user management
+        if user_type["IdentityManagementType"] == "EXISTING_DIRECTORY":
+            while directory_id = None:
+                self.choose_directory_id()
+        instance_config.set_directory_id(directory_id)
+
+        # Get Outbound call choice
+        while outbound_calls not in [True, False]:
+            outbound_calls = self.choose_outbound_calls()
+        instance_config.set_outbound_call_enabled(outbound_calls)
+
+        # Get Inbound call choice
+        while inbound_calls not in [True, False]:
+            inbound_calls = self.choose_inbound_calls()
+        instance_config.set_inbound_calls_enabled(inbound_calls)
+
+        return instance_config
 
     # def set_use_admin():
     # # Todo
