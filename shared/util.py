@@ -16,8 +16,26 @@ class Util:
         return bool(d)
 
     @staticmethod
+    def empty_or_none(t):
+        if t == "" or t == None:
+            return True
+        return False
+
+    @staticmethod
+    def check_yes(option_text):
+        response = input(f"{option_text} [N/y]: ")
+        if Util.empty_or_none(response):
+            return False
+        if response[0].lower() == "y":
+            return True
+        
+        return False
+
+    @staticmethod
     def confirm_choice(confirm_text):
         response = input(f"{confirm_text} [N/y]: ")
+        if Util.empty_or_none(response):
+            return False
         if response[0].lower() == "q":
             Util.quit_setup()
         if response[0].lower() == "y":

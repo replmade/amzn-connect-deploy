@@ -10,6 +10,8 @@ class Guide:
         for id_type in IdType:
             print(f"{id_type['Ordinal']}. {id_type['IdentityManagementType']}")
         choice_input = input("Choice (number): ")
+        if Util.empty_or_none(choice_input):
+            return None
         if choice_input[0].lower() == "q":
             Util.quit_setup()
         if choice_input not in [id_type['Ordinal'] for id_type in IdType]:
@@ -27,6 +29,8 @@ class Guide:
         print('\nChoose the instance alias for your instance')
         print('This will set your instance URL to <instance-alias>.my.connect.aws')
         alias_name = input("Enter an instance alias: ")
+        if Util.empty_or_none(alias_name):
+            return None
         confirm = Util.confirm_choice(f"You chose {alias_name.lower()}.my.connect.aws. Is this correct?")
         if confirm:
             return alias_name.lower()
@@ -34,22 +38,22 @@ class Guide:
 
     def choose_directory_id(self):
         directory_id = input('\nEnter the AWS Directory Service directory id to manage your users: ')
+        if Util.empty_or_none(directory_id):
+            return None
         confirm = Util.confirm_choice(f"You entered {directory_id}. Is this correct?")
         if confirm:
             return directory_id
         return None
 
     def choose_outbound_calls(self):
-        user_input = input('\nEnable outbound calls? [N/y]: ')
-        allow_outbound_calls = True if user_input[0].lower() == 'y' else False
+        allow_outbound_calls = Util.check_yes('\nEnable outbound calls?')
         confirm = Util.confirm_choice(f"You entered {'yes' if allow_outbound_calls else 'no'}. Is this correct?")
         if confirm:
             return allow_outbound_calls
         return None
 
     def choose_inbound_calls(self):
-        user_input = input('\Enable inbound calls? [N/y]: ')
-        allow_inbound_calls = True if user_input[0].lower() == 'y' else False
+        allow_inbound_calls = Util.check_yes('\nEnable inbound calls?')
         confirm = Util.confirm_choice(f"You entered {'yes' if allow_inbound_calls else 'no'}. Is this correct?")
         if confirm:
             return allow_inbound_calls
@@ -75,9 +79,9 @@ class Guide:
 
         # Get the directory id if Dir Service was chosen for user management
         if user_type["IdentityManagementType"] == "EXISTING_DIRECTORY":
-            while directory_id = None:
+            while directory_id == None:
                 self.choose_directory_id()
-        instance_config.set_directory_id(directory_id)
+            instance_config.set_directory_id(directory_id)
 
         # Get Outbound call choice
         while outbound_calls not in [True, False]:
