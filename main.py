@@ -19,5 +19,9 @@ if __name__ == '__main__':
 
     # Initialize Deployer and deploy the instance
     deployer = Deployer()
-    deployer.run_create(client_factory.connect_client, instance_config)
+    success = deployer.run_create(client_factory.connect_client, instance_config)
 
+    if success:
+        print('Connect instance successfully deployed')
+    else:
+        print('Connect instance deployment was unsuccessful')
