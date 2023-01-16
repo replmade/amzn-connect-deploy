@@ -9,7 +9,12 @@ Step 1: Set identity
 Access URL
 - instance-alias for .my.connect.aws
 
-Step 2: Add administrator
+Step 2: Set Telephony
++ Telephony options
+    - Allow incoming calls (T/F)
+    - Allow outgoing calls (T/F)
+
+Step 3: Add administrator
 + Users in Amazon Connect 
     - Admin Fields
         * First name
@@ -26,11 +31,6 @@ Step 2: Add administrator
         * Last name
         * Username
     - No administrator
-
-Step 3: Set Telephony
-+ Telephony options
-    - Allow incoming calls (T/F)
-    - Allow outgoing calls (T/F)
 
 Step 4: Data storage
 - Enable Customer Profiles
