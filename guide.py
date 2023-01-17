@@ -1,28 +1,25 @@
 from getpass import getpass
 from shared.util import Util
+from shared.enums import IdentityManagementType
 from config import InstanceConfig
-from config import IdType
 
 class Guide:
 
     def choose_user_type(self):
         print('\nSet identity management')
-        for id_type in IdType:
-            print(f"{id_type['Ordinal']}. {id_type['IdentityManagementType']}")
-        choice_input = input("Choice (number): ")
-        if Util.empty_or_none(choice_input):
+        for id_type in IdentityManagementType.items:
+            print(f'{id_type.value}. {id_type.name}')
+        answer = input('Choice (number): ')
+        if Util.empty_or_none(answer):
             return None
-        if choice_input[0].lower() == "q":
-            Util.quit_setup()
-        if choice_input not in [id_type['Ordinal'] for id_type in IdType]:
+        if answer[0] not in IdentityManagementType.list():
             print('\nPlease select a number in the range of choices.\n')
             return None
-        choice = [id_type for id_type in IdType if id_type['Ordinal'] == choice_input][0]
-        print(f"You chose {choice['Ordinal']}")
-        confirm = Util.confirm_choice("Is this correct?")
+        choice = IdentityManagementType(answer[0])
+        print(f'You chose {choice.name}')
+        confirm = Util.confirm_choice('Is this correct?')
         if confirm:
             return choice
-        
         return None
 
     def choose_instance_alias(self):
