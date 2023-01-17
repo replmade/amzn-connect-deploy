@@ -7,4 +7,6 @@
     - Connect Admin
     - Telephony (Incoming/Outgoing)
     - Data Storage (Call recordings, transcripts, reports, attachments)
-* Stores the configuration choices in a file for redeployment
+* Uses the AWS CDK (TypeScript) to build a Cloudformation template for reuse
+
+This project will allow the user to create an Amazon Connect instance with any type of configuration simply by choosing options and redeploy any previously configured instance.
