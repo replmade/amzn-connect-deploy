@@ -1,0 +1,6 @@
+{
+    "instanceAlias": "example-instance",
+    "identityManagementType": "CONNECT_MANAGED",
+    "inboundCalls": true,
+    "outboundCalls": true
+}
