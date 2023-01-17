@@ -1,20 +1,5 @@
 from shared.util import Util
 
-IdType = (
-    {
-        "Ordinal": "1",
-        "IdentityManagementType": "CONNECT_MANAGED"
-    },
-    {
-        "Ordinal": "2",
-        "IdentityManagementType": "EXISTING_DIRECTORY"
-    },
-    {
-        "Ordinal": "3",
-        "IdentityManagementType": "SAML"
-    }
-)
-
 class InstanceConfig:
 
     def __init__(self, **config_dict):
