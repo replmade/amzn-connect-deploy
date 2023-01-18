@@ -15,22 +15,6 @@ export class ConnectInstanceStack extends Stack {
   ) {
     super(scope, id, props);
 
-    // Create an Amazon Connect instance
-    // https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_connect.CfnInstance.html
-    /*
-      Required command line arguments:
-        --identityManagementType= CONNECT_MANAGED | EXISTING_DIRECTORY | SAML
-        --inboundCalls= false | true
-        --outboundCalls= false | true
-      Optional command line arguments:
-        --directoryId= <string> if identityManagementType==EXISTING_DIRECTORY
-        --instanceAlias= <string>
-        --autoResolveBestVoices= false | true
-        --contactLens= false | true
-        --contactflowLogs= false | true
-        --earlyMedia= false | true
-        --useCustomTtsVoices= false | true
-    */
     const customName = instanceProps.instanceAlias || 'customCC';
     const connectInstance = new aws_connect.CfnInstance(this, customName + 'Connect', instanceProps);
   }

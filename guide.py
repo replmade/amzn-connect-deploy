@@ -1,13 +1,13 @@
 from getpass import getpass
 from shared.util import Util
-from shared.enums import IdentityManagementType
+from shared.enums import IdentityManagementType, CfnInstanceProps, CfnInstanceAttributes
 from config import InstanceConfig
 
 class Guide:
 
     def choose_user_type(self):
         print('\nSet identity management')
-        for id_type in IdentityManagementType.items:
+        for id_type in IdentityManagementType:
             print(f'{id_type.value}. {id_type.name}')
         answer = input('Choice (number): ')
         if Util.empty_or_none(answer):
@@ -57,40 +57,43 @@ class Guide:
         return None
 
     def get_create_options(self):
-        user_type = None
-        instance_alias = None
-        directory_id = None
-        outbound_calls = None
-        inbound_calls = None
+        instance_props = {}
+        instance_attributes = {}
 
-        instance_config = InstanceConfig()
+        # instance_config = InstanceConfig()
         # Get the IdentityManagementType for the instance from user input
+        user_type = None
         while not user_type:
             user_type = self.choose_user_type()
-        instance_config.set_user_type(user_type)
+        instance_props['identityManagementType'] = user_type.name
 
         # Get the instance alias for the instance URL from user input
+        instance_alias = None
         while not instance_alias:
             instance_alias = self.choose_instance_alias()
-        instance_config.set_instance_alias(instance_alias)
-
+        instance_props['instanceAlias'] = instance_alias
         # Get the directory id if Dir Service was chosen for user management
-        if user_type["IdentityManagementType"] == "EXISTING_DIRECTORY":
+        if instance_props['identityManagementType'] == "EXISTING_DIRECTORY":
+            directory_id = None
             while directory_id == None:
                 self.choose_directory_id()
-            instance_config.set_directory_id(directory_id)
+            instance_props['directoryId'] = directory_id
 
         # Get Outbound call choice
+        outbound_calls = None
         while outbound_calls not in [True, False]:
             outbound_calls = self.choose_outbound_calls()
-        instance_config.set_outbound_call_enabled(outbound_calls)
+        instance_attributes['outboundCalls'] = outbound_calls
 
         # Get Inbound call choice
+        inbound_calls = None
         while inbound_calls not in [True, False]:
             inbound_calls = self.choose_inbound_calls()
-        instance_config.set_inbound_calls_enabled(inbound_calls)
+        instance_attributes['inboundCalls'] = inbound_calls
 
-        return instance_config
+        instance_props['attributes'] = instance_attributes
+
+        return instance_props
 
     # def set_use_admin():
     # # Todo

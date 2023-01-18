@@ -1,14 +1,14 @@
 Resources:
-  exampleinstanceConnect:
+  elatednarwhalConnect:
     Type: AWS::Connect::Instance
     Properties:
       Attributes:
         InboundCalls: true
         OutboundCalls: true
       IdentityManagementType: CONNECT_MANAGED
-      InstanceAlias: example-instance
+      InstanceAlias: elated-narwhal
     Metadata:
-      aws:cdk:path: CdkScriptsStack/example-instanceConnect
+      aws:cdk:path: CdkScriptsStack/elated-narwhalConnect
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:

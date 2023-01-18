@@ -1,6 +1,1 @@
-{
-    "instanceAlias": "example-instance",
-    "identityManagementType": "CONNECT_MANAGED",
-    "inboundCalls": true,
-    "outboundCalls": true
-}
+{"identityManagementType": "CONNECT_MANAGED", "instanceAlias": "elated-narwhal", "attributes": {"outboundCalls": true, "inboundCalls": true}}
