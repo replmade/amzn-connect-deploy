@@ -1,7 +1,6 @@
 from getpass import getpass
 from shared.util import Util
-from shared.enums import IdentityManagementType, CfnInstanceProps, CfnInstanceAttributes
-from config import InstanceConfig
+from shared.enums import IdentityManagementType
 
 class Guide:
 

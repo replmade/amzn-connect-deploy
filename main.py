@@ -13,9 +13,8 @@ if __name__ == '__main__':
         guide = Guide()
         instance_props = guide.get_create_options()
 
-    # Initialize Deployer and deploy the instance
+    # Initialize Deployer and deploy the instance via the cdk script
     deployer = Deployer()
-    # success = deployer.run_create(client_factory.connect_client, instance_config)
     success = deployer.run_create(instance_props, options.profile_name)
 
     if success:

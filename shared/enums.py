@@ -13,21 +13,6 @@ class CfnEnum(Enum):
     def list(self):
         return list(map(lambda e: e.value, self))
 
-class CfnInstanceProps(CfnEnum):
-    identityManagementType = 'identityManagementType'
-    directoryId = 'directoryId'
-    instanceAlias = 'instanceAlias'
-    attributes = 'attributes'
-
-class CfnInstanceAttributes(CfnEnum):
-    inboundCalls = 'inboundCalls'
-    outboundCalls = 'outboundCalls'
-    autoResolveBestVoices = 'autoResolveBestVoices'
-    contactFlowLogs = 'contactFlowLogs'
-    contactLens = 'contactLens'
-    earlyMedia = 'earlyMedia'
-    useCustomTtsVoices = 'useCustomTtsVoices'
-
 class IdentityManagementType(CfnEnum):
     CONNECT_MANAGED = '1'
     EXISTING_DIRECTORY = '2'
