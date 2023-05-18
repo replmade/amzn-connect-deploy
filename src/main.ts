@@ -1,9 +1,10 @@
 import { getOptions } from "./options";
 import { Guide } from "./guide";
 
-(function() {
+(async function() {
     const options = getOptions();
     console.dir(options);
     const guide = new Guide();
-    guide.setIdentityManagement();
+    await guide.setIdentityManagement();
+    await guide.chooseInstallAlias();
 })();
