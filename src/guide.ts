@@ -7,7 +7,16 @@ export enum IdentityManagementType {
 };
 
 export class Guide {
-    async setIdentityManagement(): Promise<string | null> {
+    static async #handleConfirm(option: any) {
+        const confirmation = await confirm('Is this correct? ');
+        if (confirmation) {
+            return option;
+        } else {
+            return null;
+        }
+    }
+
+    static async setIdentityManagement(): Promise<string | null> {
         console.log('\nSet identity management');
         const entries = Object.entries(IdentityManagementType);
         for (const [key, value] of entries) {
@@ -26,15 +35,10 @@ export class Guide {
             choice = await input('> ');
         }
         console.log(`You chose ${IdentityManagementType[Number(choice)]}`);
-        const confirmation = await confirm('Is this correct? ');
-        if (confirmation) {
-            return choice;
-        } else {
-            return null;
-        }
+        return this.#handleConfirm(choice);
     }
 
-    async chooseInstallAlias(): Promise<string | null> {
+    static async chooseInstallAlias(): Promise<string | null> {
         let aliasName: string = '';
         console.log('\nChoose the instance alias for your instance');
         console.log('This will set your instance URL to <instance-alias>.my.connect.aws');
@@ -42,25 +46,61 @@ export class Guide {
             aliasName = await input('Enter an instance alias: ');
         }
         console.log(`You chose ${aliasName}`);
-        const confirmation = await confirm('Is this correct? ');
-        if (confirmation) {
-            return aliasName.toLowerCase();
-        } else {
-            return null;
-        }
+        return this.#handleConfirm(aliasName.toLowerCase());
     }
 
-    async chooseDirectoryId(): Promise<string> {
+    static async chooseDirectoryId(): Promise<string | null> {
         let id = '';
         console.log('Enter the AWS Directory Service directory id to manage your users: ');
         while (id === '') {
             id = await input('> ');
         }
-        return id;
+        console.log(`You chose ${id}`);
+        return this.#handleConfirm(id);
     }
 
-    // async chooseOutboundCalls(): Promise<boolean> {
-    //     let outbound = false;
+    static async chooseOutboundCalls(): Promise<boolean | null> {
+        let outbound = null;
+        while (typeof outbound !== 'boolean') {
+            outbound = await confirm('Enable outbound calls?');
+        }
+        console.log(`You entered ${outbound ? 'yes' : 'no'}.`);
+        return this.#handleConfirm(outbound);
+    }
 
-    // }
+    static async chooseInboundCalls(): Promise<boolean | null> {
+        let inbound = null;
+        while (typeof inbound !== 'boolean') {
+            inbound = await confirm('Enable inbound calls?');
+        }
+        console.log(`You entered ${inbound ? 'yes' : 'no'}.`);
+        return this.#handleConfirm(inbound);
+    }
+
+    static async getCreateOptions(): Promise<void> {
+        let identityType: string | null = null;
+        let alias: string | null = null;
+        let dirId: string | null = null;
+        let outbound: boolean | null = null;
+        let inbound: boolean | null = null;
+
+        while (identityType === null) {
+            identityType = await Guide.setIdentityManagement();        
+        }
+        console.log(identityType);
+        while (alias === null) {
+            alias = await Guide.chooseInstallAlias();
+        }
+        if (identityType === 'EXISTING_DIRECTORY') {
+            while (dirId === null) {
+                dirId = await Guide.chooseDirectoryId();
+            }
+        }
+        while (outbound === null) {
+            outbound = await Guide.chooseOutboundCalls();
+        }
+        while (inbound === null) {
+            inbound = await Guide.chooseInboundCalls();
+        }
+    }
 }

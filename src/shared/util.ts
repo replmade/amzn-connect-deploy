@@ -44,10 +44,10 @@ export const checkYes = async (optionText: string) => {
 
 export const confirm = async (confirmText: string): Promise<boolean> => {
     const response = await input(`${confirmText} [N/y]: `);
-    if (response[0].toLowerCase() === 'q') {
+    if (response[0]?.toLowerCase() === 'q') {
         quitSetup();
     }
-    if (response[0].toLowerCase() === 'y') {
+    if (response[0]?.toLowerCase() === 'y') {
         return true;
     }
     return false;
