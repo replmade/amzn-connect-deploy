@@ -1,3 +1,4 @@
+import { CfnInstanceProps } from 'aws-cdk-lib/aws-connect';
 import { input, confirm } from './shared/util';
 
 export enum IdentityManagementType {
@@ -16,7 +17,7 @@ export class Guide {
         }
     }
 
-    static async setIdentityManagement(): Promise<string | null> {
+    static async setIdentityManagement(): Promise<string> {
         console.log('\nSet identity management');
         const entries = Object.entries(IdentityManagementType);
         for (const [key, value] of entries) {
@@ -35,10 +36,10 @@ export class Guide {
             choice = await input('> ');
         }
         console.log(`You chose ${IdentityManagementType[Number(choice)]}`);
-        return this.#handleConfirm(choice);
+        return this.#handleConfirm(IdentityManagementType[Number(choice)]);
     }
 
-    static async chooseInstallAlias(): Promise<string | null> {
+    static async chooseInstallAlias(): Promise<string> {
         let aliasName: string = '';
         console.log('\nChoose the instance alias for your instance');
         console.log('This will set your instance URL to <instance-alias>.my.connect.aws');
@@ -49,7 +50,16 @@ export class Guide {
         return this.#handleConfirm(aliasName.toLowerCase());
     }
 
-    static async chooseDirectoryId(): Promise<string | null> {
+    static async allowCalls(promptMessage: string): Promise<boolean | null> {
+        let response = null;
+        while (typeof response !== 'boolean') {
+          response = await confirm(promptMessage);
+        }
+        console.log(`You entered ${response ? 'yes' : 'no'}.`);
+        return this.#handleConfirm(response);
+      }
+
+    static async chooseDirectoryId(): Promise<string | undefined> {
         let id = '';
         console.log('Enter the AWS Directory Service directory id to manage your users: ');
         while (id === '') {
@@ -59,48 +69,42 @@ export class Guide {
         return this.#handleConfirm(id);
     }
 
-    static async chooseOutboundCalls(): Promise<boolean | null> {
-        let outbound = null;
-        while (typeof outbound !== 'boolean') {
-            outbound = await confirm('Enable outbound calls?');
-        }
-        console.log(`You entered ${outbound ? 'yes' : 'no'}.`);
-        return this.#handleConfirm(outbound);
-    }
-
-    static async chooseInboundCalls(): Promise<boolean | null> {
-        let inbound = null;
-        while (typeof inbound !== 'boolean') {
-            inbound = await confirm('Enable inbound calls?');
-        }
-        console.log(`You entered ${inbound ? 'yes' : 'no'}.`);
-        return this.#handleConfirm(inbound);
-    }
-
-    static async getCreateOptions(): Promise<void> {
-        let identityType: string | null = null;
-        let alias: string | null = null;
-        let dirId: string | null = null;
+    static async getCreateOptions(): Promise<CfnInstanceProps> {
+        let identityManagementType: string = '';
+        let instanceAlias: string = '';
+        let directoryId: string | undefined = undefined;
         let outbound: boolean | null = null;
         let inbound: boolean | null = null;
 
-        while (identityType === null) {
-            identityType = await Guide.setIdentityManagement();        
+        while (identityManagementType === '') {
+            identityManagementType = await Guide.setIdentityManagement();        
         }
-        console.log(identityType);
-        while (alias === null) {
-            alias = await Guide.chooseInstallAlias();
+        console.log(identityManagementType);
+        while (instanceAlias === null) {
+            instanceAlias = await Guide.chooseInstallAlias();
         }
-        if (identityType === 'EXISTING_DIRECTORY') {
-            while (dirId === null) {
-                dirId = await Guide.chooseDirectoryId();
+        if (identityManagementType === 'EXISTING_DIRECTORY') {
+            while (directoryId === null) {
+                directoryId = await Guide.chooseDirectoryId();
             }
         }
         while (outbound === null) {
-            outbound = await Guide.chooseOutboundCalls();
+            outbound = await Guide.allowCalls('Allow outbound calls? ');
         }
         while (inbound === null) {
-            inbound = await Guide.chooseInboundCalls();
+            inbound = await Guide.allowCalls('Allow inbound calls? ');
         }
+
+        let cfnInstanceProps: CfnInstanceProps = {
+            identityManagementType,
+            instanceAlias,
+            directoryId,
+            attributes: {
+                inboundCalls: inbound,
+                outboundCalls: outbound,
+            }
+        }
+
+        return cfnInstanceProps;
     }
 }

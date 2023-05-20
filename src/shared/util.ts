@@ -1,24 +1,13 @@
+import { readFileSync, writeFileSync } from 'fs';
 import * as readline from 'readline';
-// class Util:
-//     @staticmethod
-//     def read_json_file(file_path):
-//         with open(file_path, 'r') as f:
-//             return json.load(f)
 
-//     @staticmethod
-//     def write_json_file(dict_data, file_path):
-//         with open(file_path, 'w') as f:
-//             json.dump(dict_data, f)
+export const readJson = async (filepath: string): Promise<string> => {
+    return readFileSync(filepath, { encoding: 'utf8' });
+}
 
-//     @staticmethod
-//     def is_dict_empty(d):
-//         return bool(d)
-
-//     @staticmethod
-//     def empty_or_none(t):
-//         if t == "" or t == None:
-//             return True
-//         return False
+export const writeJson = async (data: any, filepath: string): Promise<void> => {
+    writeFileSync(filepath, JSON.stringify(data));
+}
 
 export const input = (prompt: string): Promise<string> => {
     const r = readline.createInterface({
@@ -35,19 +24,19 @@ export const input = (prompt: string): Promise<string> => {
 };
 
 export const checkYes = async (optionText: string) => {
-    const response = await input(`${optionText} [N/y]: `);
-    if (response[0].toLowerCase() === 'y') {
+    const response = await input(`${optionText} [Y/n]: `);
+    if (response === '' || response[0]?.toLowerCase() === 'y') {
         return true;
     }
     return false;
 };
 
 export const confirm = async (confirmText: string): Promise<boolean> => {
-    const response = await input(`${confirmText} [N/y]: `);
+    const response = await input(`${confirmText} [Y/n]: `);
     if (response[0]?.toLowerCase() === 'q') {
         quitSetup();
     }
-    if (response[0]?.toLowerCase() === 'y') {
+    if (response === '' || response[0]?.toLowerCase() === 'y') {
         return true;
     }
     return false;
