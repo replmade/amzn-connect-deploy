@@ -1,6 +1,6 @@
-from options import get_options
-from guide import Guide
-from deployer import Deployer
+from src.options import get_options
+from src.guide import Guide
+from src.deployer import Deployer
 from shared.clients import ClientFactory
 
 if __name__ == '__main__':

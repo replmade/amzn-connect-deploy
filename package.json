@@ -1,11 +1,11 @@
 {
-  "name": "amzn-connect-deploy",
+  "name": "@replmade/amzn-connect-deploy",
   "version": "0.1.0",
   "description": "CLI tool for a guided setup of Amazon Connect",
   "main": "index.js",
   "scripts": {
     "build": "tsc --project ./src",
-    "start": "node ./bin/main.js",
+    "start": "node ./bin/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
