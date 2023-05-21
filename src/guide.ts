@@ -39,7 +39,7 @@ export class Guide {
         return this.#handleConfirm(IdentityManagementType[Number(choice)]);
     }
 
-    static async chooseInstallAlias(): Promise<string> {
+    static async chooseInstanceAlias(): Promise<string> {
         let aliasName: string = '';
         console.log('\nChoose the instance alias for your instance');
         console.log('This will set your instance URL to <instance-alias>.my.connect.aws');
@@ -80,8 +80,8 @@ export class Guide {
             identityManagementType = await Guide.setIdentityManagement();        
         }
         console.log(identityManagementType);
-        while (instanceAlias === null) {
-            instanceAlias = await Guide.chooseInstallAlias();
+        while (instanceAlias === '') {
+            instanceAlias = await Guide.chooseInstanceAlias();
         }
         if (identityManagementType === 'EXISTING_DIRECTORY') {
             while (directoryId === null) {

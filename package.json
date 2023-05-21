@@ -1,7 +1,7 @@
 {
   "name": "amzn-connect-deploy",
-  "version": "1.0.0",
-  "description": "* CLI tool for a guided setup of [Amazon Connect](https://aws.amazon.com/connect/). * Guides user through a list of choices for configuring and deploying Connect.     - Identity Management (Connect, Dir Services, SAML 2)     - Instance Alias     - Connect Admin     - Telephony (Incoming/Outgoing)     - Data Storage (Call recordings, transcripts, reports, attachments) * Uses the AWS CDK (TypeScript) to build a Cloudformation template for reuse",
+  "version": "0.1.0",
+  "description": "CLI tool for a guided setup of Amazon Connect",
   "main": "index.js",
   "scripts": {
     "build": "tsc --project ./src",
@@ -9,8 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Christopher Ochsenreither",
+  "license": "Apache 2.0",
   "dependencies": {
     "@aws-sdk/client-connect": "^3.332.0",
     "@aws-sdk/client-kinesis": "^3.332.0",
