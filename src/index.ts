@@ -4,7 +4,14 @@ import { Deployer } from "./deployer";
 
 (async function() {
     const { profile, region } = getOptions();
+    console.log('Profile: ', profile);
+    console.log('Region: ', region);
     const cfnInstanceProps = await Guide.getCreateOptions();
-    const result = await Deployer.runCreate(cfnInstanceProps, profile, region);
-    console.log(result);
+    const success = await Deployer.runCreate(cfnInstanceProps, profile, region);
+    
+    if (success) {
+        console.log('Connect instance successfully deployed');
+    } else {
+        console.log('Connect instance deployment was unsuccessful')
+    }
 })();

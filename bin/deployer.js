@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Deployer = void 0;
-// from pprint import pprint
-// import os
-// from botocore.exceptions import ClientError
-// from botocore.exceptions import WaiterError
-// from shared.util import Util
 const fs_1 = require("fs");
 const child_process_1 = require("child_process");
 const util_1 = require("util");
@@ -13,8 +8,12 @@ const execAsync = (0, util_1.promisify)(child_process_1.exec);
 async function runCommand(command) {
     try {
         const { stdout, stderr } = await execAsync(command);
-        console.log('Command output:', stdout);
-        console.error('Command error:', stderr);
+        if (stdout) {
+            console.log('Command output:', stdout);
+        }
+        if (stderr) {
+            console.error('Command error:', stderr);
+        }
         return true;
     }
     catch (error) {
@@ -25,10 +24,19 @@ async function runCommand(command) {
 // class Deployer:
 class Deployer {
     static async runCreate(cfnInstanceProps, profile, region) {
+        let result = false;
         // Write the JSON file the CDK script 'cdk-scripts-stack.js' will read
         (0, fs_1.writeFileSync)('./cdk-scripts/lib/instance-props.json', JSON.stringify(cfnInstanceProps));
-        process.chdir('../');
-        const result = await runCommand(`cdk bootstrap --profile ${profile}`);
+        process.chdir('./cdk-scripts');
+        // Bootstrap CDK with profile
+        result = await runCommand(`cdk bootstrap --profile ${profile}`);
+        // Run cdk synth
+        const templateName = `${cfnInstanceProps.instanceAlias}.yaml`;
+        const synthCmd = `cdk synth > ${templateName}`;
+        result = await runCommand(synthCmd);
+        // Deploy instance
+        const deployCmd = `cdk deploy --profile ${profile} --region ${region}`;
+        result = await runCommand(deployCmd);
         return result;
     }
 }
