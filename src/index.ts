@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import { getOptions } from "./options";
 import { Guide } from "./guide";
 import { Deployer } from "./deployer";
