@@ -12,11 +12,6 @@
   "author": "Christopher Ochsenreither",
   "license": "Apache 2.0",
   "dependencies": {
-    "@aws-sdk/client-connect": "^3.332.0",
-    "@aws-sdk/client-kinesis": "^3.332.0",
-    "@aws-sdk/client-kms": "^3.334.0",
-    "@aws-sdk/client-s3": "^3.332.0",
-    "@aws-sdk/credential-providers": "^3.332.0",
     "aws-cdk-lib": "^2.80.0",
     "commander": "^10.0.1"
   },
