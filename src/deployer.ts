@@ -1,4 +1,5 @@
 import { writeFileSync } from 'fs';
+import * as path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { CfnInstanceProps } from 'aws-cdk-lib/aws-connect';
@@ -37,11 +38,13 @@ export class Deployer {
         process.chdir('./cdk-scripts');
 
         // Bootstrap CDK with profile
-        result = await runCommand(
-            `cdk bootstrap --profile ${profile}`)
-        
+        console.log('Bootstrapping CDK');
+        result = await runCommand(`cdk bootstrap --profile ${profile}`)
+        console.log('Bootstrap result:');
+        console.log(result);
+
         // Run cdk synth
-        const templateName = `${cfnInstanceProps.instanceAlias}.yaml`;
+        const templateName = path.join('../', `${cfnInstanceProps.instanceAlias}.yaml`);
         const synthCmd = `cdk synth > ${templateName}`;
         result = await runCommand(synthCmd);
 
@@ -52,22 +55,3 @@ export class Deployer {
         return result;
     }
 }
-
-//     def run_create(self, instance_props, profile):
-//         # Write the JSON file the CDK script 'cdk-scripts-stack.js' will read
-//         Util.write_json_file(instance_props, './cdk-scripts/lib/instance-props.json')
-
-//         os.chdir('./cdk-scripts')
-//         # Bootstrap CDK with profile
-//         os.system(f'cdk bootstrap --profile {profile}')
-
-//         # Run cdk synth
-//         template_name = f"{instance_props['instanceAlias']}.yaml"
-//         synth_cmd = f'cdk synth > {template_name}'
-//         os.system(synth_cmd)
-
-//         # Deploy instance
-//         deploy_cmd = f'cdk deploy --profile {profile}'
-//         os.system(deploy_cmd)
-
-//         return True

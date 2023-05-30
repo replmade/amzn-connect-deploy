@@ -7,6 +7,38 @@ export enum IdentityManagementType {
     SAML,
 };
 
+interface AwsConfig {
+    profile: string,
+    region: string,
+};
+
+export interface GuideResponse {
+    cfnInstanceProps: CfnInstanceProps,
+    awsConfig: AwsConfig,
+};
+
+const validConnectRegions: string[] = [
+    'us-east-1',
+    'us-west-2',
+    'ap-northeast-1',
+    'ap-northeast-2',
+    'ap-southeast-1',
+    'ap-southeast-2',
+    'ca-central-1',
+    'eu-central-1',
+    'eu-central-2',
+    'eu-west-2',
+    'eu-south-1',
+    'eu-south-2',
+    'af-south-1',
+    'ap-east-1',
+    'ap-south-2',
+    'ap-southeast-3',
+    'ap-southeast-4',
+    'me-south-1',
+    'me-central-1',
+];
+
 export class Guide {
     static async #handleConfirm(option: any) {
         const confirmation = await confirm('Is this correct? ');
@@ -15,6 +47,22 @@ export class Guide {
         } else {
             return null;
         }
+    }
+
+    static async setProfile(): Promise<string> {
+        let profile = 'default';
+        profile = await input('Set AWS profile [Default]: ');
+        return this.#handleConfirm(profile);
+    }
+
+    static async setRegion(): Promise<string> {
+        let region = 'us-east-1';
+        region = await input('Set deployment region [us-east-1]: ');
+        while (!validConnectRegions.includes(region)) {
+            console.log(`Connect cannot be deployed to region ${region}`);
+            region = await input('Set deployment region [us-east-1]: ');
+        }
+        return this.#handleConfirm(region);
     }
 
     static async setIdentityManagement(): Promise<string> {
@@ -69,12 +117,18 @@ export class Guide {
         return this.#handleConfirm(id);
     }
 
-    static async getCreateOptions(): Promise<CfnInstanceProps> {
+    static async getCreateOptions(): Promise<GuideResponse> {
+        let awsProfile: string = '';
+        let awsRegion: string = '';
         let identityManagementType: string = '';
         let instanceAlias: string = '';
         let directoryId: string | undefined = undefined;
         let outbound: boolean | null = null;
         let inbound: boolean | null = null;
+
+        awsProfile = await Guide.setProfile();
+
+        awsRegion = await Guide.setRegion();
 
         while (identityManagementType === '') {
             identityManagementType = await Guide.setIdentityManagement();        
@@ -95,7 +149,12 @@ export class Guide {
             inbound = await Guide.allowCalls('Allow inbound calls? ');
         }
 
-        let cfnInstanceProps: CfnInstanceProps = {
+        const awsConfig: AwsConfig = {
+            profile: awsProfile,
+            region: awsRegion,
+        };
+
+        const cfnInstanceProps: CfnInstanceProps = {
             identityManagementType,
             instanceAlias,
             directoryId,
@@ -105,6 +164,6 @@ export class Guide {
             }
         }
 
-        return cfnInstanceProps;
+        return { awsConfig, cfnInstanceProps };
     }
 }

@@ -1,15 +1,15 @@
 #! /usr/bin/env node
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const options_1 = require("./options");
 const guide_1 = require("./guide");
 const deployer_1 = require("./deployer");
 (async function () {
-    const { profile, region } = (0, options_1.getOptions)();
-    console.log('Profile: ', profile);
-    console.log('Region: ', region);
-    const cfnInstanceProps = await guide_1.Guide.getCreateOptions();
-    const success = await deployer_1.Deployer.runCreate(cfnInstanceProps, profile, region);
+    const { awsConfig, cfnInstanceProps } = await guide_1.Guide.getCreateOptions();
+    console.log(`Profile: ${awsConfig.profile}`);
+    console.log(`Region: ${awsConfig.region}`);
+    console.log(`Identity Management Type: ${cfnInstanceProps.identityManagementType}`);
+    console.log(`Connect Instance Alias Name: ${cfnInstanceProps.instanceAlias}`);
+    const success = await deployer_1.Deployer.runCreate(cfnInstanceProps, awsConfig.profile, awsConfig.region);
     if (success) {
         console.log('Connect instance successfully deployed');
     }

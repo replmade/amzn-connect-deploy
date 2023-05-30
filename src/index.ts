@@ -1,14 +1,14 @@
 #! /usr/bin/env node
-import { getOptions } from "./options";
 import { Guide } from "./guide";
 import { Deployer } from "./deployer";
 
 (async function() {
-    const { profile, region } = getOptions();
-    console.log('Profile: ', profile);
-    console.log('Region: ', region);
-    const cfnInstanceProps = await Guide.getCreateOptions();
-    const success = await Deployer.runCreate(cfnInstanceProps, profile, region);
+    const { awsConfig, cfnInstanceProps } = await Guide.getCreateOptions();
+    console.log(`Profile: ${awsConfig.profile}`);
+    console.log(`Region: ${awsConfig.region}`);
+    console.log(`Identity Management Type: ${cfnInstanceProps.identityManagementType}`);
+    console.log(`Connect Instance Alias Name: ${cfnInstanceProps.instanceAlias}`);
+    const success = await Deployer.runCreate(cfnInstanceProps, awsConfig.profile, awsConfig.region);
     
     if (success) {
         console.log('Connect instance successfully deployed');
