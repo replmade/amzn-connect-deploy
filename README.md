@@ -12,5 +12,5 @@
 This project will allow the user to create an Amazon Connect instance with any type of configuration simply by choosing options and redeploy any previously configured instance.
 
 ## Usage
-1. Install the package globally `npm i -g @replmd/amzn-connect-deploy`
-2. 
+1. Clone this repository: `gh repo clone replmade/amzn-connect-deploy`
+2. Run the guided install: `npm start`
