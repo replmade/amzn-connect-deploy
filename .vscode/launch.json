@@ -14,8 +14,7 @@
             "program": "${workspaceFolder}/bin/index.js",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
-            ],
-            "args": ["-p", "aws1", "-r", "us-west-2"]
+            ]
         }
     ]
 }
