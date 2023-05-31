@@ -15,7 +15,7 @@ export class ConnectInstanceStack extends Stack {
   ) {
     super(scope, id, props);
 
-    const customName = instanceProps.instanceAlias || 'customCC';
-    const connectInstance = new aws_connect.CfnInstance(this, customName + 'Connect', instanceProps);
+    const customName = instanceProps.instanceAlias || 'AmazonConnectContactCenter';
+    const connectInstance = new aws_connect.CfnInstance(this, customName, instanceProps);
   }
 }
