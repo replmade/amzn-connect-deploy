@@ -4,7 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { ConnectInstanceStack } from '../lib/cdk-scripts-stack';
 
 const app = new cdk.App();
-new ConnectInstanceStack(app, 'CdkScriptsStack', {
+new ConnectInstanceStack(app, 'CdkAmazonConnectStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */
