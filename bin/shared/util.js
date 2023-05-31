@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.confirm = exports.checkYes = exports.input = exports.writeJson = exports.readJson = void 0;
+exports.confirm = exports.emptyNullUndefined = exports.checkYes = exports.input = exports.writeJson = exports.readJson = void 0;
 const fs_1 = require("fs");
 const readline = __importStar(require("readline"));
 const readJson = async (filepath) => {
@@ -55,6 +55,17 @@ const checkYes = async (optionText) => {
     return false;
 };
 exports.checkYes = checkYes;
+const emptyNullUndefined = (value) => {
+    switch (value) {
+        case null:
+        case undefined:
+        case '':
+            return true;
+        default:
+            return false;
+    }
+};
+exports.emptyNullUndefined = emptyNullUndefined;
 const confirm = async (confirmText) => {
     const response = await (0, exports.input)(`${confirmText} [Y/n]: `);
     if (response[0]?.toLowerCase() === 'q') {
