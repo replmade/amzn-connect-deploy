@@ -31,6 +31,17 @@ export const checkYes = async (optionText: string) => {
     return false;
 };
 
+export const emptyNullUndefined = (value: any): boolean => {
+    switch (value) {
+        case null:
+        case undefined:
+        case '':
+            return true;
+        default: 
+            return false;
+    }
+} 
+
 export const confirm = async (confirmText: string): Promise<boolean> => {
     const response = await input(`${confirmText} [Y/n]: `);
     if (response[0]?.toLowerCase() === 'q') {
