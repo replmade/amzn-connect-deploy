@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs';
 import * as path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { CfnInstanceProps } from 'aws-cdk-lib/aws-connect';
+import { CfnInstanceProps, CfnInstanceStorageConfig } from 'aws-cdk-lib/aws-connect';
 
 const execAsync = promisify(exec);
 
@@ -53,5 +53,9 @@ export class Deployer {
         result = await runCommand(deployCmd);
 
         return result;
+    }
+
+    static async runConfigure() {
+
     }
 }

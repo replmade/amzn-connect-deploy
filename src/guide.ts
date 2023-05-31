@@ -161,4 +161,8 @@ export class Guide {
 
         return { awsConfig, cfnInstanceProps };
     }
+
+    static async getConfigureOptions() {
+        console.log('Configure post-install options');
+    }
 }

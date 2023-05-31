@@ -4,14 +4,11 @@ import { Deployer } from "./deployer";
 
 (async function() {
     const { awsConfig, cfnInstanceProps } = await Guide.getCreateOptions();
-    console.log(`Profile: ${awsConfig.profile}`);
-    console.log(`Region: ${awsConfig.region}`);
-    console.log(`Identity Management Type: ${cfnInstanceProps.identityManagementType}`);
-    console.log(`Connect Instance Alias Name: ${cfnInstanceProps.instanceAlias}`);
     const success = await Deployer.runCreate(cfnInstanceProps, awsConfig.profile, awsConfig.region);
     
     if (success) {
-        console.log('Connect instance successfully deployed');
+        console.log(`Connect instance ${cfnInstanceProps.instanceAlias} successfully deployed`);
+        // Run post-deployment configuration
     } else {
         console.log('Connect instance deployment was unsuccessful')
     }
